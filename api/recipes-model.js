@@ -1,9 +1,16 @@
 const db = require('../data/db-config');
 
-function find() {
-    return db('recipes');
+function findRecipeById(recipe_id) {
+    return db('recipes')
+        .where({recipe_id})
+        .first()
+}
+
+function getRecipeById(recipe_id) {
+    return 'hello'
 }
 
 module.exports = {
-    find,
+    findRecipeById,
+    getRecipeById
 }

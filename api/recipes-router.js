@@ -1,11 +1,22 @@
 const express = require('express');
 const Recipes = require('./recipes-model');
+const {checkValidRecipeId} = require('./recipes-middleware');
 
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
+router.get('/:recipe_id', checkValidRecipeId, (req, res, next) => {
     try {
-        const recipes = Recipes.find();
+        res.status(200).json(req.existing);
+    } catch(err) {
+        next(err);
+    }
+})
+
+router.get('/:recipe_id', checkValidRecipeId, async (req, res, next) => {
+    try {
+        const {recipe_id} = req.params;
+        console.log(recipe_id);
+        const recipes = await Recipes.getRecipeById();
         res.status(200).json(recipes);
     } catch(err) {
         next(err);
