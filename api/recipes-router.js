@@ -16,8 +16,8 @@ router.get('/:recipe_id', checkValidRecipeId, async (req, res, next) => {
     try {
         const {recipe_id} = req.params;
         console.log(recipe_id);
-        const recipes = await Recipes.getRecipeById();
-        res.status(200).json(recipes);
+        const recipe = await Recipes.getRecipeById(recipe_id);
+        res.status(200).json(recipe);
     } catch(err) {
         next(err);
     }
