@@ -7,7 +7,7 @@ async function checkValidRecipeId(req, res, next) {
         if(!existing) {
             next({status: 404, message: `Recipe with id ${recipe_id} does not exist`});
         } else {
-            req.existing = existing;
+            // req.existing = existing;
             next();
         }
     } catch (err) {

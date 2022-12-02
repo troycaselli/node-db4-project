@@ -4,13 +4,13 @@ const {checkValidRecipeId} = require('./recipes-middleware');
 
 const router = express.Router();
 
-router.get('/:recipe_id', checkValidRecipeId, (req, res, next) => {
-    try {
-        res.status(200).json(req.existing);
-    } catch(err) {
-        next(err);
-    }
-})
+// router.get('/:recipe_id', checkValidRecipeId, (req, res, next) => {
+//     try {
+//         res.status(200).json(req.existing);
+//     } catch(err) {
+//         next(err);
+//     }
+// })
 
 router.get('/:recipe_id', checkValidRecipeId, async (req, res, next) => {
     try {
