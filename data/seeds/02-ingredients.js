@@ -3,6 +3,7 @@ exports.seed = async function(knex) {
     {ingredient_name: 'cereal'},
     {ingredient_name: 'milk'},
     {ingredient_name: 'honey'},
-    {ingredient_name: 'corn dog'}
+    {ingredient_name: 'corn dog'},
+    {ingredient_name: 'ketchup'}
   ]);
 };
