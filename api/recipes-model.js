@@ -29,27 +29,57 @@ async function getRecipeById(recipe_id) {
         recipe_id: recipe[0].recipe_id,
         recipe_name: recipe[0].recipe_name,
         created_at: recipe[0].created_at,
-        steps: []
+        steps: recipe.reduce((acc, row) => {
+            if(!row.ingredient_id) {
+                return acc.concat({
+                    step_id: row.step_id,
+                    step_number: row.step_number,
+                    step_instructions: row.step_instructions
+                })
+            } else if(row.ingredient_id && !acc.find(step => step.step_id === row.step_id)) {
+                return acc.concat({
+                    step_id: row.step_id,
+                    step_number: row.step_number,
+                    step_instructions: row.step_instructions,
+                    ingredients: [
+                        {
+                            ingredient_id: row.ingredient_id,
+                            ingredient_name: row.ingredient_name,
+                            quantity: row.quantity
+                        }
+                    ]
+                })
+            } else {
+                const current = acc.find(step => step.step_id === row.step_id);
+                current.ingredients.push({
+                    ingredient_id: row.ingredient_id,
+                    ingredient_name: row.ingredient_name,
+                    quantity: row.quantity
+                });
+            }
+            
+            return acc
+        }, [])
     };
 
-    recipe.forEach(step => {
-        const stepData = {
-            step_id: step.step_id,
-            step_number: step.step_number,
-            step_instructions: step.step_instructions,
-            ingredients: []
-        };
+    // recipe.forEach(step => {
+    //     const stepData = {
+    //         step_id: step.step_id,
+    //         step_number: step.step_number,
+    //         step_instructions: step.step_instructions,
+    //         ingredients: []
+    //     };
 
-        if(step.ingredient_id) {
-            stepData.ingredients.push({
-                ingredient_id: step.ingredient_id,
-                ingredient_name: step.ingredient_name,
-                quantity: step.quantity
-            });
-        }
+    //     if(step.ingredient_id) {
+    //         stepData.ingredients.push({
+    //             ingredient_id: step.ingredient_id,
+    //             ingredient_name: step.ingredient_name,
+    //             quantity: step.quantity
+    //         });
+    //     }
 
-        result.steps.push(stepData);
-    })
+    //     result.steps.push(stepData);
+    // })
 
     return result;
 }
